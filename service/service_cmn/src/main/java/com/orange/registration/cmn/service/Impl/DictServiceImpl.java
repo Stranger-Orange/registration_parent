@@ -28,7 +28,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     //根据数据id查询子数据列表
     @Override
-    @Cacheable(value = "dict",keyGenerator = "keyGenerator")
+    //@Cacheable(value = "dict",keyGenerator = "keyGenerator")
     public List<Dict> findChildData(Long id) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id",id);
@@ -70,7 +70,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     //导入数据字典接口
     @Override
-    @CacheEvict(value = "dict", allEntries=true)
+    //@CacheEvict(value = "dict", allEntries=true)
     public void importDictData(MultipartFile file) {
         try {
             EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(baseMapper)).sheet().doRead();
