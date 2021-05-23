@@ -47,8 +47,12 @@ public class BigDecimalUtil {
      */
 
     public static String add(String v1, String v2) {
-        if (StringUtils.isEmpty(v1)) v1 = "0";
-        if (StringUtils.isEmpty(v2)) v2 = "0";
+        if (StringUtils.isEmpty(v1)) {
+            v1 = "0";
+        }
+        if (StringUtils.isEmpty(v2)) {
+            v2 = "0";
+        }
 
         BigDecimal b1 = new BigDecimal(v1);
 
@@ -68,8 +72,12 @@ public class BigDecimalUtil {
      */
 
     public static String add(String v1, String v2, int scale) {
-        if (StringUtils.isEmpty(v1)) v1 = "0";
-        if (StringUtils.isEmpty(v2)) v2 = "0";
+        if (StringUtils.isEmpty(v1)) {
+            v1 = "0";
+        }
+        if (StringUtils.isEmpty(v2)) {
+            v2 = "0";
+        }
         return round(add(v1, v2), 2);
 
     }
@@ -119,8 +127,12 @@ public class BigDecimalUtil {
      */
 
     public static String subtract(String v1, String v2) {
-        if (StringUtils.isEmpty(v1)) v1 = "0";
-        if (StringUtils.isEmpty(v2)) v2 = "0";
+        if (StringUtils.isEmpty(v1)) {
+            v1 = "0";
+        }
+        if (StringUtils.isEmpty(v2)) {
+            v2 = "0";
+        }
 
         BigDecimal b1 = new BigDecimal(v1);
 
@@ -205,8 +217,12 @@ public class BigDecimalUtil {
      */
 
     public static String multiply(String v1, String v2) {
-        if (StringUtils.isEmpty(v1)) v1 = "0";
-        if (StringUtils.isEmpty(v2)) v2 = "0";
+        if (StringUtils.isEmpty(v1)) {
+            v1 = "0";
+        }
+        if (StringUtils.isEmpty(v2)) {
+            v2 = "0";
+        }
 
         BigDecimal b1 = new BigDecimal(v1);
 
@@ -295,8 +311,12 @@ public class BigDecimalUtil {
      */
 
     public static String divide(String v1, String v2) {
-        if (StringUtils.isEmpty(v1)) v1 = "0";
-        if (StringUtils.isEmpty(v2) || Double.parseDouble(v2) == 0) v2 = "1";
+        if (StringUtils.isEmpty(v1)) {
+            v1 = "0";
+        }
+        if (StringUtils.isEmpty(v2) || Double.parseDouble(v2) == 0) {
+            v2 = "1";
+        }
 
         return divide(v1, v2, DEFAULT_DIV_SCALE);
 
@@ -316,7 +336,9 @@ public class BigDecimalUtil {
     public static String divide(String v1, String v2, int scale)
 
     {
-        if (StringUtils.isEmpty(v2) || Double.parseDouble(v2) == 0) v2 = "1";
+        if (StringUtils.isEmpty(v2) || Double.parseDouble(v2) == 0) {
+            v2 = "1";
+        }
         return divide(v1, v2, scale, BigDecimal.ROUND_HALF_EVEN);
 
     }
