@@ -162,7 +162,7 @@ public class ApiServiceImpl implements ApiService {
             paramMap.put("bigname",jsonObject.getString("bigname"));
 
             paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
-            paramMap.put("sign",HttpRequestHelper.getSign(paramMap, this.getSignKey()));
+            paramMap.put("sign", MD5.encrypt(this.getSignKey()));
             JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveDepartment");
             System.out.println(respone.toJSONString());
 
