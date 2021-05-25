@@ -25,7 +25,7 @@ import java.time.Duration;
  * @create 2021-05-16 23:08
  */
 @Configuration
-// @EnableCaching
+@EnableCaching
 public class RedisConfig {
 
     /**

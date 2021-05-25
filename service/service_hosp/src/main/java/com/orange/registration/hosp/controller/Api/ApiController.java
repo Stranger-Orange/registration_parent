@@ -3,6 +3,8 @@ package com.orange.registration.hosp.controller.Api;
 import com.orange.registration.hosp.service.ScheduleService;
 import com.orange.registration.model.hosp.Schedule;
 import com.orange.registration.vo.hosp.ScheduleQueryVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import com.orange.registration.common.result.Result;
 import com.orange.registration.common.result.ResultCodeEnum;
@@ -27,8 +29,9 @@ import java.util.Map;
  * @author Orange
  * @create 2021-05-23 15:22
  */
+@Api(tags = "医院管理API接口")
 @RestController
-@RequestMapping("api/hosp")
+@RequestMapping("/api/hosp")
 public class ApiController {
 
     @Autowired
@@ -216,6 +219,7 @@ public class ApiController {
     }
 
     //上传医院接口
+    @ApiOperation(value = "上传医院")
     @PostMapping("saveHospital")
     public Result saveHosp(HttpServletRequest request){
         //获取传递过来的医院信息

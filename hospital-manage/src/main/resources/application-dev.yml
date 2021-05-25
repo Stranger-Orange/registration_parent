@@ -14,7 +14,7 @@ spring:
     #配置模板路径，默认是templates，可以不用配置
     prefix: classpath:/templates/
   redis:
-    host: 127.0.0.1
+    host: 120.78.156.84
     port: 6379
     database: 0
     timeout: 1800000
