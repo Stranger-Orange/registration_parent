@@ -13,12 +13,37 @@ import java.util.List;
  * @create 2021-05-16 21:28
  */
 public interface DictService extends IService<Dict> {
-    //根据数据id查询子数据列表
+    /**
+     * 根据数据id查询子数据列表
+     * @param id
+     * @return
+     */
     List<Dict> findChildData(Long id);
 
-    //导出数据字典接口
+    /**
+     * 导出数据字典接口
+     * @param response
+     */
     void exportDictData(HttpServletResponse response);
 
-    //导入数据字典接口
+    /**
+     * 导入数据字典接口
+     * @param file
+     */
     void importDictData(MultipartFile file);
+
+    /**
+     * 根据dictcode和value查询
+     * @param dictCode
+     * @param value
+     * @return
+     */
+    String getDictName(String dictCode, String value);
+
+    /**
+     * 根据dictCode获取下级节点
+     * @param dictCode
+     * @return
+     */
+    List<Dict> findByDictCode(String dictCode);
 }

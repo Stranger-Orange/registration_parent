@@ -24,7 +24,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    //上传排班
+    /**
+     * 上传排班
+     * @param paramMap
+     */
     @Override
     public void save(Map<String, Object> paramMap) {
         //paramMap转换为department对象
@@ -49,7 +52,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
-    //查询排班
+    /**
+     * 查询排班
+     * @param page
+     * @param limit
+     * @param scheduleQueryVo
+     * @return
+     */
     @Override
     public Page<Schedule> findPageSchedule(int page, int limit, ScheduleQueryVo scheduleQueryVo) {
         //创建Pageable对象，设置当前页和每页记录数，0是第一页
@@ -62,11 +71,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase(true);
         Example<Schedule> example = Example.of(schedule, matcher);
-        org.springframework.data.domain.Page<Schedule> all = scheduleRepository.findAll(example, pageable);
+        Page<Schedule> all = scheduleRepository.findAll(example, pageable);
         return all;
     }
 
-    //删除排班
+    /**
+     * 删除排班
+     * @param hoscode
+     * @param hosScheduleId
+     */
     @Override
     public void remove(String hoscode, String hosScheduleId) {
         //根据医院编号和排班编号查询相关信息

@@ -26,7 +26,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    //上传科室接口
+    /**
+     * 上传科室接口
+     * @param paramMap
+     */
     @Override
     public void save(Map<String, Object> paramMap) {
         //paramMap转换为department对象
@@ -49,7 +52,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
-    //查询科室接口
+    /**
+     * 查询科室接口
+     * @param page
+     * @param limit
+     * @param departmentQueryVo
+     * @return
+     */
     @Override
     public Page<Department> findPageDepartment(int page, int limit, DepartmentQueryVo departmentQueryVo) {
         //创建Pageable对象，设置当前页和每页记录数，0是第一页
@@ -61,11 +70,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                                                           .withIgnoreCase(true);
         Example<Department> example = Example.of(department, matcher);
-        org.springframework.data.domain.Page<Department> all = departmentRepository.findAll(example, pageable);
+        Page<Department> all = departmentRepository.findAll(example, pageable);
         return all;
     }
 
-    //删除科室接口
+    /**
+     * 删除科室接口
+     * @param hoscode
+     * @param depcode
+     */
     @Override
     public void remove(String hoscode, String depcode) {
         //根据医院编号和科室编号进行查询

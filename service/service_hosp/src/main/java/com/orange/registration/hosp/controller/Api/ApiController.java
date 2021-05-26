@@ -46,7 +46,11 @@ public class ApiController {
     @Autowired
     private ScheduleService scheduleService;
 
-    //删除排班
+    /**
+     * 删除排班
+     * @param request
+     * @return
+     */
     @PostMapping("schedule/remove")
     public Result remove(HttpServletRequest request){
         //获取传递过来的科室信息
@@ -55,21 +59,16 @@ public class ApiController {
         //获取医院编号和排班编号
         String hoscode = (String) paramMap.get("hoscode");
         String hosScheduleId = (String) paramMap.get("hosScheduleId");
-        //1、获取医院系统传递过来的签名
-        String hospSign = (String) paramMap.get("sign");
-        //2、根据传过来的医院编码，查询数据库，查询签名
-        String singKey = hospitalSetService.getSignKey(hoscode);
-        //3、讲数控库查出的签名进行MD5加密
-        String signKeyMd5 = MD5.encrypt(singKey);
-        //4、判断签名是否一致
-        if (!hospSign.equals(signKeyMd5)){
-            throw new RuntimeException(String.valueOf(ResultCodeEnum.SIGN_ERROR));
-        }
+        //TODO 签名校验
         scheduleService.remove(hoscode,hosScheduleId);
         return Result.ok();
     }
 
-    //查询排班
+    /**
+     * 查询排班
+     * @param request
+     * @return
+     */
     @PostMapping("schedule/list")
     public Result findSchedule(HttpServletRequest request){
         //获取传递过来的科室信息
@@ -81,16 +80,7 @@ public class ApiController {
         //当前页 和 每页记录数
         int page = StringUtils.isEmpty(paramMap.get("page")) ? 1 : Integer.parseInt((String)paramMap.get("page"));
         int limit = StringUtils.isEmpty(paramMap.get("limit")) ? 1 : Integer.parseInt((String)paramMap.get("limit"));
-        //1、获取医院系统传递过来的签名
-        String hospSign = (String) paramMap.get("sign");
-        //2、根据传过来的医院编码，查询数据库，查询签名
-        String singKey = hospitalSetService.getSignKey(hoscode);
-        //3、讲数控库查出的签名进行MD5加密
-        String signKeyMd5 = MD5.encrypt(singKey);
-        //4、判断签名是否一致
-        if (!hospSign.equals(signKeyMd5)){
-            throw new RuntimeException(String.valueOf(ResultCodeEnum.SIGN_ERROR));
-        }
+        //TODO 签名校验
         ScheduleQueryVo scheduleQueryVo = new ScheduleQueryVo();
         scheduleQueryVo.setHoscode(hoscode);
         scheduleQueryVo.setDepcode(depcode);
@@ -99,28 +89,26 @@ public class ApiController {
         return Result.ok(pageModel);
     }
 
-    //上传排班
+    /**
+     * 上传排班
+     * @param request
+     * @return
+     */
     @PostMapping("saveSchedule")
     public Result saveSchedule(HttpServletRequest request){
         //获取传递过来的科室信息
         Map<String, String[]> requestMap = request.getParameterMap();
         Map<String, Object> paramMap = HttpRequestHelper.switchMap(requestMap);
-        //1、获取医院系统传递过来的签名
-        String hoscode = (String)paramMap.get("hoscode");
-        String hospSign = (String) paramMap.get("sign");
-        //2、根据传过来的医院编码，查询数据库，查询签名
-        String singKey = hospitalSetService.getSignKey(hoscode);
-        //3、讲数控库查出的签名进行MD5加密
-        String signKeyMd5 = MD5.encrypt(singKey);
-        //4、判断签名是否一致
-        if (!hospSign.equals(signKeyMd5)){
-            throw new RuntimeException(String.valueOf(ResultCodeEnum.SIGN_ERROR));
-        }
+        //TODO 签名校验
         scheduleService.save(paramMap);
         return Result.ok();
     }
 
-    //删除科室
+    /**
+     * 删除科室
+     * @param request
+     * @return
+     */
     @PostMapping("department/remove")
     public Result removeDepartment(HttpServletRequest request){
         //获取传递过来的科室信息
@@ -129,21 +117,17 @@ public class ApiController {
         //医院编号 和 科室编号
         String hoscode = (String)paramMap.get("hoscode");
         String depcode = (String)paramMap.get("depcode");
-        //1、获取医院系统传递过来的签名
-        String hospSign = (String) paramMap.get("sign");
-        //2、根据传过来的医院编码，查询数据库，查询签名
-        String singKey = hospitalSetService.getSignKey(hoscode);
-        //3、讲数控库查出的签名进行MD5加密
-        String signKeyMd5 = MD5.encrypt(singKey);
-        //4、判断签名是否一致
-        if (!hospSign.equals(signKeyMd5)){
-            throw new RuntimeException(String.valueOf(ResultCodeEnum.SIGN_ERROR));
-        }
+        //TODO 签名校验
         departmentService.remove(hoscode,depcode);
         return Result.ok();
     }
 
-    //查询科室
+    /**
+     * 查询科室
+     * @param request
+     * @return
+     */
+    @ApiOperation(value = "获取分页列表")
     @PostMapping("department/list")
     public Result findDepartment(HttpServletRequest request){
         //获取传递过来的科室信息
@@ -154,16 +138,7 @@ public class ApiController {
         //当前页 和 每页记录数
         int page = StringUtils.isEmpty(paramMap.get("page")) ? 1 : Integer.parseInt((String)paramMap.get("page"));
         int limit = StringUtils.isEmpty(paramMap.get("limit")) ? 1 : Integer.parseInt((String)paramMap.get("limit"));
-        //1、获取医院系统传递过来的签名
-        String hospSign = (String) paramMap.get("sign");
-        //2、根据传过来的医院编码，查询数据库，查询签名
-        String singKey = hospitalSetService.getSignKey(hoscode);
-        //3、讲数控库查出的签名进行MD5加密
-        String signKeyMd5 = MD5.encrypt(singKey);
-        //4、判断签名是否一致
-        if (!hospSign.equals(signKeyMd5)){
-            throw new RuntimeException(String.valueOf(ResultCodeEnum.SIGN_ERROR));
-        }
+        //TODO 签名校验
         DepartmentQueryVo departmentQueryVo = new DepartmentQueryVo();
         departmentQueryVo.setHoscode(hoscode);
         //调用service方法
@@ -171,7 +146,11 @@ public class ApiController {
         return Result.ok(pageModel);
     }
 
-    //上传科室
+    /**
+     * 上传科室
+     * @param request
+     * @return
+     */
     @PostMapping("saveDepartment")
     public Result saveDepartment(HttpServletRequest request) {
         //获取传递过来的科室信息
@@ -195,7 +174,11 @@ public class ApiController {
 
     }
 
-    //查询医院
+    /**
+     * 查询医院
+     * @param request
+     * @return
+     */
     @PostMapping("hospital/show")
     public Result getHospital(HttpServletRequest request) {
         //获取传递过来的医院信息
@@ -218,7 +201,11 @@ public class ApiController {
         return Result.ok(hospital);
     }
 
-    //上传医院接口
+    /**
+     * 上传医院接口
+     * @param request
+     * @return
+     */
     @ApiOperation(value = "上传医院")
     @PostMapping("saveHospital")
     public Result saveHosp(HttpServletRequest request){

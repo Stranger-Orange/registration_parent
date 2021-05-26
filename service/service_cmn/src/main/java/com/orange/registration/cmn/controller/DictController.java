@@ -25,7 +25,11 @@ public class DictController {
     @Autowired
     private DictService dictService;
 
-    //导入数据字典接口
+    /**
+     * 导入数据字典接口
+     * @param file
+     * @return
+     */
     @ApiOperation(value = "导入")
     @PostMapping("importData")
     public Result importData(MultipartFile file) {
@@ -33,18 +37,62 @@ public class DictController {
         return Result.ok();
     }
 
-    //导出数据字典接口
+    /**
+     * 导出数据字典接口
+     * @param response
+     */
     @ApiOperation(value="导出")
     @GetMapping("exportData")
     public void exportData(HttpServletResponse response) {
         dictService.exportDictData(response);
     }
 
-    //根据数据id查询子数据列表
+    /**
+     * 根据dictCode获取下级节点
+     * @param dictCode
+     * @return
+     */
+    @ApiOperation(value = "根据dictCode获取下级节点")
+    @GetMapping("/findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable String dictCode) {
+        List<Dict> list = dictService.findByDictCode(dictCode);
+        return Result.ok(list);
+    }
+
+    /**
+     * 根据数据id查询子数据列表
+     * @param id
+     * @return
+     */
     @ApiOperation(value = "根据数据id查询子数据列表")
     @GetMapping("findChildData/{id}")
     public Result findChildData(@PathVariable Long id) {
         List<Dict> list = dictService.findChildData(id);
         return Result.ok(list);
     }
+
+    /**
+     * 根据dictCode和value查询
+     * @param dictCode
+     * @param value
+     * @return
+     */
+    @GetMapping("getName/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode,
+                          @PathVariable String value) {
+        String dictName = dictService.getDictName(dictCode, value);
+        return dictName;
+    }
+
+    /**
+     * 根据value查询
+     * @param value
+     * @return
+     */
+    @GetMapping("getName/{value}")
+    public String getName(@PathVariable String value) {
+        String dictName = dictService.getDictName("",value);
+        return dictName;
+    }
+
 }

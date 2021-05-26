@@ -12,12 +12,25 @@ import java.util.Map;
  */
 public interface ScheduleService {
 
-    //上传排班
+    /**
+     * 上传排班
+     * @param paramMap
+     */
     void save(Map<String, Object> paramMap);
 
-    //查询排班
+    /**
+     * 查询排班
+     * @param page
+     * @param limit
+     * @param scheduleQueryVo
+     * @return
+     */
     Page<Schedule> findPageSchedule(int page, int limit, ScheduleQueryVo scheduleQueryVo);
 
-    //删除排班
+    /**
+     * 删除排班
+     * @param hoscode
+     * @param hosScheduleId
+     */
     void remove(String hoscode, String hosScheduleId);
 }

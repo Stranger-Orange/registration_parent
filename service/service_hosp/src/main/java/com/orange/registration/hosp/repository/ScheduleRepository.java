@@ -11,7 +11,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScheduleRepository extends MongoRepository<Schedule, String> {
-    //根据医院编号和排班编号进行查询
+    /**
+     * 根据医院编号和排班编号进行查询
+     * @param hoscode
+     * @param hosScheduleId
+     * @return
+     */
     Schedule getScheduleByHoscodeAndHosScheduleId(String hoscode, String hosScheduleId);
 
 }

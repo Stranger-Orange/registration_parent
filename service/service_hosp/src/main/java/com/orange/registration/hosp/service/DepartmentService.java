@@ -11,12 +11,25 @@ import java.util.Map;
  * @create 2021-05-24 20:49
  */
 public interface DepartmentService {
-    //上传科室接口
+    /**
+     * 上传科室接口
+     * @param paramMap
+     */
     void save(Map<String, Object> paramMap);
 
-    //查询科室接口
+    /**
+     * 查询科室接口
+     * @param page
+     * @param limit
+     * @param departmentQueryVo
+     * @return
+     */
     Page<Department> findPageDepartment(int page, int limit, DepartmentQueryVo departmentQueryVo);
 
-    //删除科室接口
+    /**
+     * 删除科室接口
+     * @param hoscode
+     * @param depcode
+     */
     void remove(String hoscode, String depcode);
 }
