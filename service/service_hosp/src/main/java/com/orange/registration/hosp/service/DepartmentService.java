@@ -2,8 +2,10 @@ package com.orange.registration.hosp.service;
 
 import com.orange.registration.model.hosp.Department;
 import com.orange.registration.vo.hosp.DepartmentQueryVo;
+import com.orange.registration.vo.hosp.DepartmentVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +34,19 @@ public interface DepartmentService {
      * @param depcode
      */
     void remove(String hoscode, String depcode);
+
+    /**
+     * 查询医院所有科室列表
+     * @param hoscode
+     * @return
+     */
+    List<DepartmentVo> findDeptTree(String hoscode);
+
+    /**
+     * 根据科室编号和医院编号查询科室名称
+     * @param hoscode
+     * @param depcode
+     * @return
+     */
+    String getDepName(String hoscode, String depcode);
 }
