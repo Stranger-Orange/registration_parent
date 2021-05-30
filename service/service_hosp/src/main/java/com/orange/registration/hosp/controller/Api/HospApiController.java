@@ -1,8 +1,10 @@
 package com.orange.registration.hosp.controller.Api;
 
 import com.orange.registration.common.result.Result;
+import com.orange.registration.hosp.service.DepartmentService;
 import com.orange.registration.hosp.service.HospitalService;
 import com.orange.registration.model.hosp.Hospital;
+import com.orange.registration.vo.hosp.DepartmentVo;
 import com.orange.registration.vo.hosp.HospitalQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Orange
@@ -27,6 +30,9 @@ public class HospApiController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     @ApiOperation(value = "查询医院列表")
     @GetMapping("findHospList/{page}/{limit}")
@@ -43,6 +49,24 @@ public class HospApiController {
                                 @PathVariable String hosname) {
         List<Hospital> list = hospitalService.findByHosname(hosname);
         return Result.ok(list);
+    }
+
+    @ApiOperation(value = "根据医院编号获取科室列表")
+    @GetMapping("department/{hoscode}")
+    public Result index(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode) {
+        List<DepartmentVo> list = departmentService.findDeptTree(hoscode);
+        return Result.ok(list);
+    }
+
+    @ApiOperation(value = "根据医院编号医院预约挂号详情")
+    @GetMapping("findHospDetail/{hoscode}")
+    public Result item(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode) {
+        Map<String, Object> map = hospitalService.item(hoscode);
+        return Result.ok(map);
     }
 
 }

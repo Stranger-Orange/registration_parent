@@ -61,4 +61,11 @@ public interface HospitalService {
      * @return
      */
     List<Hospital> findByHosname(String hosname);
+
+    /**
+     * 根据医院编号医院预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    Map<String, Object> item(String hoscode);
 }

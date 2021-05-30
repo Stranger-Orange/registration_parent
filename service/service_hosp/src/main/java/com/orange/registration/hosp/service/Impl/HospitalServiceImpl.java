@@ -155,6 +155,24 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     /**
+     * 根据医院编号医院预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    @Override
+    public Map<String, Object> item(String hoscode) {
+        Map<String, Object> result = new HashMap<>();
+        //医院详情
+        Hospital hospital = this.setHospitalHosType(this.getByHoscode(hoscode));
+        result.put("hospital", hospital);
+        //预约规则
+        result.put("bookingRule", hospital.getBookingRule());
+        //不需要重复返回
+        hospital.setBookingRule(null);
+        return result;
+    }
+
+    /**
      * 获取查询list集合，遍历进行医院等级封装
      * @param hospital
      * @return
