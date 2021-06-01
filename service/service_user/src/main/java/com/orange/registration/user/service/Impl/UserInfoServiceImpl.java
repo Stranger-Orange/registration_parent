@@ -3,11 +3,14 @@ package com.orange.registration.user.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.orange.registration.common.exception.RegistrationException;
+import com.orange.registration.common.helper.JwtHelper;
 import com.orange.registration.common.result.ResultCodeEnum;
 import com.orange.registration.model.user.UserInfo;
 import com.orange.registration.user.mapper.UserInfoMapper;
 import com.orange.registration.user.service.UserInfoService;
 import com.orange.registration.vo.user.LoginVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +23,10 @@ import java.util.Map;
  */
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     /**
      * 用户手机号登录接口
      * @param loginVo
@@ -34,8 +41,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(code)) {
             throw new RegistrationException(ResultCodeEnum.PARAM_ERROR);
         }
-        //TODO 判断手机验证码和输入验证码是否一致
-
+        //判断手机验证码和输入验证码是否一致
+        String redisCode = redisTemplate.opsForValue().get(phone);
+        if (code.equals(redisCode)) {
+            throw new RegistrationException(ResultCodeEnum.CODE_ERROR);
+        }
         //判断是否是第一次注册：根据手机号查询数据库进行判断
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("phone", phone);
@@ -68,8 +78,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             name = userInfo.getPhone();
         }
         map.put("name", name);
-        //TODO token生成
-        map.put("token", "");
+        //jwt生成token字符串
+        String token = JwtHelper.createToken(userInfo.getId(), name);
+        map.put("token", token);
         return map;
     }
 }
