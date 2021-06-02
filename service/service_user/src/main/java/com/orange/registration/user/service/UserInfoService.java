@@ -18,5 +18,12 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     Map<String, Object> loginUser(LoginVo loginVo);
+
+    /**
+     * 根据openid判断数据库中是否存在扫码人信息
+     * @param openid
+     * @return
+     */
+    UserInfo selectWxInfoOpenId(String openid);
 }
 

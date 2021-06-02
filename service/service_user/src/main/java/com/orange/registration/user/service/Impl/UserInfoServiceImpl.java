@@ -83,4 +83,17 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         map.put("token", token);
         return map;
     }
+
+    /**
+     * 根据openid判断数据库中是否存在扫码人信息
+     * @param openid
+     * @return
+     */
+    @Override
+    public UserInfo selectWxInfoOpenId(String openid) {
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", openid);
+        UserInfo userInfo = baseMapper.selectOne(queryWrapper);
+        return userInfo;
+    }
 }
