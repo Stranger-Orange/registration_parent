@@ -46,17 +46,30 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         if (code.equals(redisCode)) {
             throw new RegistrationException(ResultCodeEnum.CODE_ERROR);
         }
-        //判断是否是第一次注册：根据手机号查询数据库进行判断
-        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
-        wrapper.eq("phone", phone);
-        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        //绑定手机号码
+        UserInfo userInfo = null;
+        if(!StringUtils.isEmpty(loginVo.getOpenid())) {
+            userInfo = this.selectWxInfoOpenId(loginVo.getOpenid());
+            if(null != userInfo) {
+                userInfo.setPhone(loginVo.getPhone());
+                this.updateById(userInfo);
+            } else {
+                throw new RegistrationException(ResultCodeEnum.DATA_ERROR);
+            }
+        }
         if (userInfo == null) {
-            //第一次使用，添加信息到数据库
-            userInfo = new UserInfo();
-            userInfo.setName("");
-            userInfo.setPhone(phone);
-            userInfo.setStatus(1);
-            baseMapper.insert(userInfo);
+            //判断是否是第一次注册：根据手机号查询数据库进行判断
+            QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+            wrapper.eq("phone", phone);
+            userInfo = baseMapper.selectOne(wrapper);
+            if (userInfo == null) {
+                //第一次使用，添加信息到数据库
+                userInfo = new UserInfo();
+                userInfo.setName("");
+                userInfo.setPhone(phone);
+                userInfo.setStatus(1);
+                baseMapper.insert(userInfo);
+            }
         }
         //校验是否被禁用
         if(userInfo.getStatus() == 0) {
