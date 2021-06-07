@@ -3,6 +3,7 @@ package com.orange.registration.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.orange.registration.model.user.UserInfo;
 import com.orange.registration.vo.user.LoginVo;
+import com.orange.registration.vo.user.UserAuthVo;
 
 import java.util.Map;
 
@@ -25,5 +26,12 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     UserInfo selectWxInfoOpenId(String openid);
+
+    /**
+     * 用户认证
+     * @param userId
+     * @param userAuthVo
+     */
+    void userAuth(Long userId, UserAuthVo userAuthVo);
 }
 
