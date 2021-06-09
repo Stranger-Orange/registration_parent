@@ -49,4 +49,12 @@ public interface DepartmentService {
      * @return
      */
     String getDepName(String hoscode, String depcode);
+
+    /**
+     * 根据科室编号和医院编号查询科室
+     * @param hoscode
+     * @param depcode
+     * @return
+     */
+    Department getDepartment(String hoscode, String depcode);
 }

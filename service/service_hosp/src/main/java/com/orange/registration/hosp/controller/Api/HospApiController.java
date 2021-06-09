@@ -3,6 +3,7 @@ package com.orange.registration.hosp.controller.Api;
 import com.orange.registration.common.result.Result;
 import com.orange.registration.hosp.service.DepartmentService;
 import com.orange.registration.hosp.service.HospitalService;
+import com.orange.registration.hosp.service.ScheduleService;
 import com.orange.registration.model.hosp.Hospital;
 import com.orange.registration.vo.hosp.DepartmentVo;
 import com.orange.registration.vo.hosp.HospitalQueryVo;
@@ -33,6 +34,9 @@ public class HospApiController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private ScheduleService scheduleService;
 
     @ApiOperation(value = "查询医院列表")
     @GetMapping("findHospList/{page}/{limit}")
@@ -68,5 +72,34 @@ public class HospApiController {
         Map<String, Object> map = hospitalService.item(hoscode);
         return Result.ok(map);
     }
+
+
+    @ApiOperation(value = "获取可预约排班数据")
+    @GetMapping("auth/getBookingScheduleRule/{page}/{limit}/{hoscode}/{depcode}")
+    public Result getBookingSchedule(
+            @ApiParam(name = "page", value = "当前页码", required = true)
+            @PathVariable Integer page,
+            @ApiParam(name = "limit", value = "每页记录数", required = true)
+            @PathVariable Integer limit,
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode,
+            @ApiParam(name = "depcode", value = "科室code", required = true)
+            @PathVariable String depcode) {
+        return Result.ok(scheduleService.getBookingScheduleRule(page, limit, hoscode, depcode));
+    }
+
+    @ApiOperation(value = "获取排班数据")
+    @GetMapping("auth/findScheduleList/{hoscode}/{depcode}/{workDate}")
+    public Result findScheduleList(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode,
+            @ApiParam(name = "depcode", value = "科室code", required = true)
+            @PathVariable String depcode,
+            @ApiParam(name = "workDate", value = "排班日期", required = true)
+            @PathVariable String workDate) {
+        return Result.ok(scheduleService.getDetailSchedule(hoscode, depcode, workDate));
+    }
+
+
 
 }

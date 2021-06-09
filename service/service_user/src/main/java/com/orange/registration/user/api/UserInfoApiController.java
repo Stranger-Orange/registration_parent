@@ -1,4 +1,4 @@
-package com.orange.registration.user.controller;
+package com.orange.registration.user.api;
 
 import com.orange.registration.common.result.Result;
 import com.orange.registration.common.utils.AuthContextHolder;
