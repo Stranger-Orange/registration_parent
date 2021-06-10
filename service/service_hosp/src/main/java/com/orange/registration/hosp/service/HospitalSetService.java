@@ -8,6 +8,10 @@ import com.orange.registration.model.hosp.HospitalSet;
  * @create 2021-05-16 21:28
  */
 public interface HospitalSetService extends IService<HospitalSet> {
-    //根据传过来的医院编码，查询数据库，查询签名
+    /**
+     * 根据传过来的医院编码，查询数据库，查询签名
+     * @param hoscode
+     * @return
+     */
     String getSignKey(String hoscode);
 }

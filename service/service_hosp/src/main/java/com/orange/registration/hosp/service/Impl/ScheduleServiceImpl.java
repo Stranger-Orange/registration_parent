@@ -1,8 +1,8 @@
 package com.orange.registration.hosp.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.orange.registration.common.exception.RegistrationException;
 import com.orange.registration.common.result.ResultCodeEnum;
 import com.orange.registration.hosp.repository.ScheduleRepository;
@@ -14,6 +14,7 @@ import com.orange.registration.model.hosp.Department;
 import com.orange.registration.model.hosp.Hospital;
 import com.orange.registration.model.hosp.Schedule;
 import com.orange.registration.vo.hosp.BookingScheduleRuleVo;
+import com.orange.registration.vo.hosp.ScheduleOrderVo;
 import com.orange.registration.vo.hosp.ScheduleQueryVo;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -291,6 +292,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
+     * 根据排班id获取排班数据
+     * @param scheduleId
+     * @return
+     */
+    @Override
+    public Schedule getScheduleId(String scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
+        return this.packageSchedule(schedule);
+    }
+
+    /**
+     * 根据排班id获取预约下单数据
+     * @param scheduleId
+     * @return
+     */
+    @Override
+    public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
+        ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
+        return null;
+    }
+
+    /**
      * 根据bookingRule获取可预约日期带分页
      * @param page
      * @param limit
@@ -342,13 +365,14 @@ public class ScheduleServiceImpl implements ScheduleService {
      * 封装排班详情其他值：医院名称、科室名称、日期对应星期
      * @param schedule
      */
-    private void packageSchedule(Schedule schedule) {
+    private Schedule packageSchedule(Schedule schedule) {
         //设置医院名称
         schedule.getParam().put("hosname",hospitalService.getHospName(schedule.getHoscode()));
         //设置科室名称
         schedule.getParam().put("depname",departmentService.getDepName(schedule.getHoscode(),schedule.getDepcode()));
         //设置日期对应星期
         schedule.getParam().put("dayOfWeek",this.getDayOfWeek(new DateTime(schedule.getWorkDate())));
+        return schedule;
     }
 
 
@@ -385,5 +409,4 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return dayOfWeek;
     }
-
 }

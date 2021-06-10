@@ -5,6 +5,7 @@ import com.orange.registration.common.result.Result;
 import com.orange.registration.common.utils.AuthContextHolder;
 import com.orange.registration.model.user.Patient;
 import com.orange.registration.user.service.PatientService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,5 +83,16 @@ public class PatientApiController {
     public Result removePatient(@PathVariable Long id) {
         patientService.removeById(id);
         return Result.ok();
+    }
+
+    /**
+     * 根据就诊人id获取就诊人信息
+     * @param id
+     * @return
+     */
+    @GetMapping("inner/get/{id}")
+    public Patient getPatientOrder( @PathVariable("id") Long id) {
+        Patient patient = patientService.getPatientId(id);
+        return patient;
     }
 }

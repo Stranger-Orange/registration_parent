@@ -5,8 +5,10 @@ import com.orange.registration.hosp.service.DepartmentService;
 import com.orange.registration.hosp.service.HospitalService;
 import com.orange.registration.hosp.service.ScheduleService;
 import com.orange.registration.model.hosp.Hospital;
+import com.orange.registration.model.hosp.Schedule;
 import com.orange.registration.vo.hosp.DepartmentVo;
 import com.orange.registration.vo.hosp.HospitalQueryVo;
+import com.orange.registration.vo.hosp.ScheduleOrderVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -100,6 +102,22 @@ public class HospApiController {
         return Result.ok(scheduleService.getDetailSchedule(hoscode, depcode, workDate));
     }
 
+    @ApiOperation(value = "根据排班id获取排班数据")
+    @GetMapping("getSchedule/{scheduleId}")
+    public Result getSchedule(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable String scheduleId) {
+        Schedule schedule = scheduleService.getScheduleId(scheduleId);
+        return Result.ok(schedule);
+    }
+
+    @ApiOperation(value = "根据排班id获取预约下单数据")
+    @GetMapping("inner/getScheduleOrderVo/{scheduleId}")
+    public ScheduleOrderVo getScheduleOrderVo(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable("scheduleId") String scheduleId) {
+        return scheduleService.getScheduleOrderVo(scheduleId);
+    }
 
 
 }

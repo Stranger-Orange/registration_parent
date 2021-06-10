@@ -1,8 +1,10 @@
 package com.orange.registration.hosp.service;
 
 import com.orange.registration.model.hosp.Schedule;
+import com.orange.registration.vo.hosp.ScheduleOrderVo;
 import com.orange.registration.vo.hosp.ScheduleQueryVo;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -63,4 +65,18 @@ public interface ScheduleService {
      * @return
      */
     Map<String, Object> getBookingScheduleRule(int page, int limit, String hoscode, String depcode);
+
+    /**
+     * 根据排班id获取排班数据
+     * @param scheduleId
+     * @return
+     */
+    Schedule getScheduleId(String scheduleId);
+
+    /**
+     * 根据排班id获取预约下单数据
+     * @param scheduleId
+     * @return
+     */
+    ScheduleOrderVo getScheduleOrderVo(String scheduleId);
 }
